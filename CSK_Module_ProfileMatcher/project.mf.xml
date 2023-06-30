@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest>
+    <application name="CSK_Module_ProfileMatcher">
+        <crown name="CSK_Module_ProfileMatcher">
+            <desc>This is an automatically generated CROWN (description not necessary).</desc>
+        </crown>
+        <crown name="CSK_ProfileMatcher">
+            <trait>released</trait>
+            <desc>Module to provide Profile match functionality based on incoming Scan data (currently only compatible with data of TIM LiDAR sensor). +
+{empty} +
+**Typical features to use (check the UI of the module):** +
+{empty} +
+1) Register to the "OnNewScan"-event of a scan provider of the CSK_Module_MultiRemoteLiDAR (see "selectLiDARProviderInstance"). +
+2) Define an area within the profile to teach the profile matcher. +
+3) Set the minimal valid match score. +
+4) Module will process incoming scans to check if teached profile can be found with minimal score. +</desc>
+            <serves>
+                <event name="OnNewStatusLoadParameterOnReboot">
+                    <desc>Notify status if parameters should be loaded on app/device boot up.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnPersistentDataModuleAvailable">
+                    <desc>Notify status if features of CSK_PersistendData module are available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnDataLoadedOnReboot">
+                    <desc>Event to call if module tried to load parameters and should be ready.</desc>
+                </event>
+                <event name="OnNewParameterName">
+                    <desc>Notify name of persistent data parameter.</desc>
+                    <param desc="Parameter name" multiplicity="1" name="name" type="string"/>
+                </event>
+                <event name="OnUserLevelOperatorActive">
+                    <desc>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelMaintenanceActive">
+                    <desc>Status of Maintenance userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelServiceActive">
+                    <desc>Status of Service userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelAdminActive">
+                    <desc>Status of Admin userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusSelectedProviderInstance">
+                    <desc>Notify selected provider instance related to CSK_Module_MultiRemoteLiDAR.</desc>
+                    <param desc="Instance number." multiplicity="1" name="instanceNo" type="int"/>
+                </event>
+                <event name="OnNewLiDARProviderInstanceAmountList">
+                    <desc>Notify list of available amount of instances related to CSK_Module_MultiRemoteLiDAR.</desc>
+                    <param desc="List of instances." multiplicity="1" name="insanceList" type="string"/>
+                </event>
+                <event name="OnNewStatusProfileMatchRange">
+                    <desc>Notify range of ROI to match within profile.</desc>
+                    <param desc="Range of ROI in profile." multiplicity="+" name="range" type="int"/>
+                </event>
+                <event name="OnNewStatusMinimalScore">
+                    <desc>Notify minimal valid match score.</desc>
+                    <param desc="Score" multiplicity="1" name="score" type="float"/>
+                </event>
+                <event name="OnNewStatusCurrentScore">
+                    <desc>Notify score of current match.</desc>
+                    <param desc="Score" multiplicity="1" name="score" type="float"/>
+                </event>
+                <event name="OnNewStatusMatchResult">
+                    <desc>Notify result of current match.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusCurrentScoreString">
+                    <desc>Notify score of current match as string.</desc>
+                    <param desc="Score" multiplicity="1" name="score" type="string"/>
+                </event>
+                <function name="setParameterName">
+                    <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
+                    <param desc="Name of the parameter." multiplicity="1" name="name" type="string"/>
+                </function>
+                <function name="sendParameters">
+                    <desc>Send parameters to CSK_PersistentData module if possible to save them.</desc>
+                </function>
+                <function name="loadParameters">
+                    <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
+                </function>
+                <function name="setLoadOnReboot">
+                    <desc>Configure if this module should load its saved parameters at app/device boot up.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="pageCalled">
+                    <desc>Function to register "OnResume" of the module UI (only as helper function).</desc>
+                    <return desc="Empty string (only needed to simplify binding)." multiplicity="1" name="empty" type="string"/>
+                </function>
+                <function name="selectLiDARProviderInstance">
+                    <desc>Function to select LiDAR scan provider instance of CSK_Module_MultiRemoteLiDAR.</desc>
+                    <param desc="Instance number to select." multiplicity="1" name="instanceNo" type="int"/>
+                </function>
+                <function name="setMatchRange">
+                    <desc>Function to set range of profile to match.</desc>
+                    <param desc="ROI within profile." multiplicity="+" name="range" type="int"/>
+                </function>
+                <function name="setMinScore">
+                    <desc>Function to set minimal valid match score.</desc>
+                    <param desc="Score" multiplicity="1" name="minScore" type="float"/>
+                </function>
+                <function name="teachProfile">
+                    <desc>Function to teach profile to match.</desc>
+                </function>
+                <function name="clearTeach">
+                    <desc>Function to clear current profile match.</desc>
+                </function>
+                <function name="registerToLiDARProvider">
+                    <desc>Function to register preselected LiDAR provider instance.</desc>
+                </function>
+            </serves>
+        </crown>
+        <meta key="author">SICK AG</meta>
+        <meta key="version">0.3.0</meta>
+        <meta key="priority">low</meta>
+        <meta key="copy-protected">false</meta>
+        <meta key="read-protected">false</meta>
+        <meta key="crown2-flow-engine">false</meta>
+        <meta key="LuaLoadAllEngineAPI">true</meta>
+        <entry default="CSK_Module_ProfileMatcher.lua" path="scripts"/>
+    </application>
+</manifest>

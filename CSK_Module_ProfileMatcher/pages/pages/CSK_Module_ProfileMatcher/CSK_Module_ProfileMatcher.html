@@ -1,0 +1,195 @@
+<layout-row id="RowLayout1" style="align-items: stretch">
+	<layout-column id="ColumnLayout1" style="align-items: stretch">
+		<sick-viewer2d id="Viewer2D1" viewer-id="profileViewer"
+			style="width: 100%; height: 100%">
+		</sick-viewer2d>
+	</layout-column>
+	<layout-column id="ColumnLayout2" style="align-items: stretch">
+		<stacked-view id="SV_Login">
+			<stacked-pane id="SP_LoginOK" value="true">
+				<layout-row id="RowLayout5" style="align-items: stretch">
+					<layout-column id="ColumnLayout8"
+						style="align-items: stretch; justify-content: space-between">
+						<layout-row id="RowLayout6">
+							<layout-column id="ColumnLayout9" style="align-items: stretch">
+								<davinci-drop-down id="DD_ListOfInstances"
+									label="LiDAR provider instance:">
+									<crown-edpws-binding property="data"
+										name="CSK_ProfileMatcher/OnNewLiDARProviderInstanceAmountList"
+										update-on-resume converter="convertToList">
+									</crown-edpws-binding>
+									<crown-edpws-binding property="value"
+										name="CSK_ProfileMatcher/OnNewStatusSelectedProviderInstance"
+										update-on-resume
+										converter="function(value) {return value.toString();}">
+									</crown-edpws-binding>
+									<crown-binding event="change"
+										name="CSK_ProfileMatcher/selectLiDARProviderInstance"
+										path="param/args/instanceNo" auto-commit
+										converter="function(value) {return Number(value);}">
+									</crown-binding>
+								</davinci-drop-down>
+								<davinci-button id="Button_Register" type="primary"
+									icon-position="append">
+									<span>Register to LiDARProvider</span>
+									<crown-binding event="submit"
+										name="CSK_ProfileMatcher/registerToLiDARProvider" auto-commit>
+									</crown-binding>
+								</davinci-button>
+								<davinci-range-slider id="RS_profileROI" legend show-value-field
+									min="-45" max="45" ticks="1" style="width: 98%">
+									<span>Profile ROI:</span>
+									<crown-binding event="change" name="CSK_ProfileMatcher/setMatchRange"
+										path="param/args/range" auto-commit>
+									</crown-binding>
+									<crown-edpws-binding property="value"
+										name="CSK_ProfileMatcher/OnNewStatusProfileMatchRange"
+										update-on-resume
+										converter="function(value) {return [value[0], value[1]];}">
+									</crown-edpws-binding>
+								</davinci-range-slider>
+								<davinci-numeric-field id="NF_ValidScore" type="outline" min="0"
+									max="1" ticks="0.01" group-separator="," decimal-separator="."
+									format-pattern="0.00" title="Minimal valid score:">
+									<crown-edpws-binding property="value"
+										name="CSK_ProfileMatcher/OnNewStatusMinimalScore"
+										update-on-resume>
+									</crown-edpws-binding>
+									<crown-binding event="change" name="CSK_ProfileMatcher/setMinScore"
+										path="param/args/minScore" auto-commit>
+									</crown-binding>
+								</davinci-numeric-field>
+								<davinci-button id="Button_Teach" type="primary"
+									icon-position="append">
+									<span>Teach</span>
+									<crown-binding event="submit" name="CSK_ProfileMatcher/teachProfile"
+										auto-commit>
+									</crown-binding>
+								</davinci-button>
+								<davinci-button id="Button_ClearTeach" type="primary"
+									icon-position="append">
+									<span>Clear</span>
+									<crown-binding event="submit" name="CSK_ProfileMatcher/clearTeach"
+										auto-commit>
+									</crown-binding>
+								</davinci-button>
+								<davinci-value-display id="VD_CurrentScore" label="Current score:">
+									<crown-edpws-binding property="value"
+										name="CSK_ProfileMatcher/OnNewStatusCurrentScoreString"
+										update-on-resume>
+									</crown-edpws-binding>
+								</davinci-value-display>
+								<davinci-status-indicator id="SI_ValidMatch">
+									<span>Match Result</span>
+									<crown-edpws-binding property="status"
+										name="CSK_ProfileMatcher/OnNewStatusMatchResult" update-on-resume>
+									</crown-edpws-binding>
+								</davinci-status-indicator>
+							</layout-column>
+						</layout-row>
+						<layout-row id="RowLayout7">
+							<layout-column id="Column_PersistentData"
+								class="myCustomFrame_CSK_Module_ProfileMatcher"
+								style="align-items: stretch">
+								<layout-row id="RowLayout4"
+									style="justify-content: space-between; align-items: center">
+									<layout-column id="ColumnLayout5" style="align-items: stretch">
+										<davinci-value-display id="VD_ParameterName" value="Parameter name:"
+											title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
+										</davinci-value-display>
+									</layout-column>
+									<layout-column id="ColumnLayout6" style="align-items: stretch">
+										<davinci-text-field id="TF_ParameterName" type="text"
+											title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
+											<crown-edpws-binding property="value"
+												name="CSK_ProfileMatcher/OnNewParameterName" update-on-resume>
+											</crown-edpws-binding>
+											<crown-binding event="change"
+												name="CSK_ProfileMatcher/setParameterName" path="param/args/name"
+												auto-commit>
+											</crown-binding>
+											<crown-edpws-binding property="disabled"
+												name="CSK_ProfileMatcher/OnPersistentDataModuleAvailable"
+												update-on-resume converter="function(value) {return !value;}">
+											</crown-edpws-binding>
+										</davinci-text-field>
+									</layout-column>
+								</layout-row>
+								<layout-row id="RowLayout2"
+									style="justify-content: space-between; align-items: center">
+									<davinci-value-display id="VD_LoadConfig"
+										value="Load config on app start:"
+										title="Load configured parameters from CSK_PersistentData on app start.">
+									</davinci-value-display>
+									<davinci-checkbox id="CB_LoadConfig"
+										title="Load configured parameters from CSK_PersistentData on app start.">
+										<span></span>
+										<crown-edpws-binding property="checked"
+											name="CSK_ProfileMatcher/OnNewStatusLoadParameterOnReboot"
+											update-on-resume>
+										</crown-edpws-binding>
+										<crown-edpws-binding property="disabled"
+											name="CSK_ProfileMatcher/OnPersistentDataModuleAvailable"
+											update-on-resume converter="function(value) {return !value;}">
+										</crown-edpws-binding>
+										<crown-binding event="change"
+											name="CSK_ProfileMatcher/setLoadOnReboot" path="param/args/status"
+											auto-commit>
+										</crown-binding>
+									</davinci-checkbox>
+								</layout-row>
+								<layout-row id="RowLayout3">
+									<layout-column id="ColumnLayout3" style="align-items: stretch">
+										<davinci-button id="B_LoadConfig" type="primary"
+											icon-position="append"
+											title="Load configured parameters from CSK_PersistentData module.">
+											<span>Load Config</span>
+											<crown-binding event="submit" name="CSK_ProfileMatcher/loadParameters"
+												auto-commit>
+											</crown-binding>
+											<crown-edpws-binding property="disabled"
+												name="CSK_ProfileMatcher/OnPersistentDataModuleAvailable"
+												update-on-resume converter="function(value) {return !value;}">
+											</crown-edpws-binding>
+										</davinci-button>
+									</layout-column>
+									<layout-column id="ColumnLayout4" style="align-items: stretch">
+										<davinci-button id="B_SaveConfig" type="primary"
+											icon-position="append"
+											title="Save current configured parameters of this module within CSK_PersistentData module.">
+											<span>Save Config</span>
+											<crown-binding event="submit" name="CSK_ProfileMatcher/sendParameters"
+												auto-commit>
+											</crown-binding>
+											<crown-edpws-binding property="disabled"
+												name="CSK_ProfileMatcher/OnPersistentDataModuleAvailable"
+												update-on-resume converter="function(value) {return !value;}">
+											</crown-edpws-binding>
+										</davinci-button>
+									</layout-column>
+								</layout-row>
+							</layout-column>
+						</layout-row>
+					</layout-column>
+				</layout-row>
+			</stacked-pane>
+			<stacked-pane id="SP_LoginNotOK" value="false">
+				<davinci-callout id="Callout1" type="info">
+					<span>
+						Please log in via CSK_UserManagement module (at least via user level "Operator")
+					</span>
+				</davinci-callout>
+			</stacked-pane>
+			<crown-edpws-binding property="value"
+				name="CSK_ProfileMatcher/OnUserLevelOperatorActive"
+				update-on-resume
+				converter="function(value) {return value.toString();}">
+			</crown-edpws-binding>
+		</stacked-view>
+		<stacked-view id="SV_PageCalled">
+			<crown-binding property="value" name="CSK_ProfileMatcher/pageCalled"
+				path="result/data/empty" auto-update="0" update-on-resume>
+			</crown-binding>
+		</stacked-view>
+	</layout-column>
+</layout-row>
